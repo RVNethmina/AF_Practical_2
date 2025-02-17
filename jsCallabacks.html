@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript Callabacks</title>
+  </head>
+  <body>
+    <script>
+      function fetchData(url, callback) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            // Request is complete
+            if (xhr.status === 200) {
+              // Successful response
+              callback(null, xhr.responseText);
+            } else {
+              // Error occurred
+              callback(`Error: ${xhr.status}`, null);
+            }
+          }
+        };
+
+        xhr.send();
+      }
+
+      // Using fetchData with a callback function
+      fetchData(
+        "https://jsonplaceholder.typicode.com/posts/1",
+        function (error, data) {
+          if (error) {
+            console.error(error);
+          } else {
+            console.log("Response Data:", data);
+          }
+        }
+      );
+    </script>
+  </body>
+</html>
